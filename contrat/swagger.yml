@@ -1,0 +1,111 @@
+openapi: '3.0.0'
+info:
+  title: Film Microservice
+  version: 0.0.1-SNAPSHOT
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /api/films/{id}:
+    get:
+      summary: Obtenir tous les film disponible
+      operationId: obtenirFilm
+      tags:
+        - Film
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReponseFilm'
+  /api/films:
+    post:
+      summary: Crée un film
+      operationId: creeFilm
+      tags:
+        - Film
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequeteCreationFilm'
+      responses:
+          200:
+            description: Created
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ReponseFilm'
+
+components:
+  schemas:
+    RequeteCreationFilm:
+      type: object
+      properties:
+        titre:
+          type: string
+          description: "Titre du film"
+          example: "Star Wars: The Empire Strikes Back"
+        description:
+          type: string
+          description: "Description du film"
+          example: "Darth Vader is adamant about turning Luke Skywalker to the dark side."
+        acteurs:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequeteCreationAuteur'
+    RequeteCreationAuteur:
+      type: object
+      properties:
+        nom:
+          type: string
+          description: "Nom de l'acteur"
+          example: "Harrison"
+        prenom:
+          type: string
+          description: "Description du film"
+          example: "Ford"
+    ReponseFilm:
+      type: object
+      properties:
+        id:
+          type: number
+          description: "Id du film"
+          example: 12
+        titre:
+          type: string
+          description: "Titre du film"
+          example: "Star Wars: The Empire Strikes Back"
+        description:
+          type: string
+          description: "Description du film"
+          example: "Darth Vader is adamant about turning Luke Skywalker to the dark side."
+        acteurs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReponseActeur'
+    ReponseActeur:
+      type: object
+      properties:
+        id:
+          type: number
+          description: "Id de l'acteur"
+          example: 12
+        nom:
+          type: string
+          description: "Nom de l'acteur"
+          example: "Harrison"
+        prenom:
+          type: string
+          description: "Description du film"
+          example: "Ford"
+
